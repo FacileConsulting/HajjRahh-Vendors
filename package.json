@@ -19,6 +19,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^3.1.0",
     "rsuite": "^5.68.1",
+    "use-sync-external-store": "^1.2.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
