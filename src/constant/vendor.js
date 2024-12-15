@@ -7,7 +7,17 @@ const dateStyles = {
 };
 
 export const vData = [
+
+ 
   {
+    id: "dashboard-id",
+    title: "Dashboard",
+    link: '/dashboard',
+    subMenu: [],
+    component: "Dashboard"
+  },
+  {
+    id: "hajj-umrah-providers-id",
     title: "Hajj & Umrah Providers",
     link: "",
     exact: true,
@@ -15,7 +25,7 @@ export const vData = [
       {
         id: "package-management-list-id",
         title: "Package Management",
-        link: `/package-management-list`,
+        link: '/package-management-list',
         component: "PackageManagementList",
         hide: "",
         content: [
@@ -176,10 +186,13 @@ export const vData = [
                 id: "package-management-new-price",
                 keyName: "packageManagementNewPrice",
                 label: "Price",
-                type: "text",
-                description: "input with label text",
+                type: "multiSelect",
+                description: "select with label checkbox",
                 htmlType: 4,
-                value: "",
+                data: ['Economy', 'Business', 'First_Class', 'Premium_Economy', 'Premium'].map(
+                  item => ({ label: item, value: item })
+                ),
+                value: [],
                 htmlFor: "package-management-new-price-for",
                 placeholder: "",
                 class: [["col-4"]]
@@ -200,10 +213,13 @@ export const vData = [
                 id: "package-management-new-accomodation",
                 keyName: "packageManagementNewAccomodation",
                 label: "Accomodation",
-                type: "text",
-                description: "input with label text",
+                type: "multiSelect",
+                description: "select with label checkbox",
                 htmlType: 4,
-                value: "",
+                data: ['1 Day 2 Nights', '2 Days 3 Nights', '3 Days 4 Nights'].map(
+                  item => ({ label: item, value: item })
+                ),
+                value: [],
                 htmlFor: "package-management-new-accomodation-for",
                 placeholder: "",
                 class: [["col-4"]]
@@ -345,31 +361,148 @@ export const vData = [
                 ]
               },
               {
-                id: "package-management-new-transportation",
+                id: "package-management-new-transportation-guidelines-main",
                 htmlType: 'group_1',
                 class: [["col-6"]],
-                fields: [
+                fields: [ 
+                  {
+                    id: "package-management-new-transportation-guidelines",
+                    label: "Transportation Guidelines",
+                    description: "label text",
+                    htmlFor: "package-management-new-transportation-guidelines-for",
+                    class: [["mb-3", "col-12"]]
+                  },                     
                   {
                     id: "package-management-new-inclusion",
-                    keyName: "packageManagementNewInclusion",
-                    label: "Transportation Guidelines",
-                    type: "textarea",
-                    description: "textarea with label text",
-                    value: "",
-                    htmlFor: "package-management-new-inclusion-for",
-                    placeholder: "Inclusion",
-                    class: [["mb-2"]]
-                  },
+                    label: "Inclusion",
+                    type: "checkbox",
+                    name: "packageManagementNewInclusion",
+                    description: "checkbox with label text",
+                    class: [["mb-3", "col-12"]],
+                    fields: [
+                      {
+                        id: "package-management-new-hajj-visa",
+                        label: "Hajj Visa",
+                        value: false,
+                        keyName: "packageManagementHajjVisa",
+                        htmlFor: "package-management-new-hajj-visa-for",
+                      },
+                      {
+                        id: "package-management-new-ticket",
+                        label: "Ticket",
+                        value: false,
+                        keyName: "packageManagementTicket",
+                        htmlFor: "package-management-new-ticket-for",
+                      },
+                      {
+                        id: "package-management-new-hajj-kit",
+                        label: "Hajj Kit",
+                        value: false,
+                        keyName: "packageManagementHajjKit",
+                        htmlFor: "package-management-new-hajj-kit-for",
+                      },
+                      {
+                        id: "package-management-new-stay",
+                        label: "Stay",
+                        value: false,
+                        keyName: "packageManagementStay",
+                        htmlFor: "package-management-new-stay-for",
+                      },
+                      {
+                        id: "package-management-new-transportation",
+                        label: "Transportation",
+                        value: false,
+                        keyName: "packageManagementTransportation",
+                        htmlFor: "package-management-new-transportation-for",
+                      },
+                      {
+                        id: "package-management-new-buffet",
+                        label: "3 Times Buffet Indian Food",
+                        value: false,
+                        keyName: "packageManagementBuffet",
+                        htmlFor: "package-management-new-buffet-for",
+                      },
+                      {
+                        id: "package-management-new-ziyarat",
+                        label: "Ziyarat of Makkahh and Madina",
+                        value: false,
+                        keyName: "packageManagementZiyarat",
+                        htmlFor: "package-management-new-ziyarat-for",
+                      },
+                      {
+                        id: "package-management-new-laundry",
+                        label: "Laundry",
+                        value: false,
+                        keyName: "packageManagementLaundry",
+                        htmlFor: "package-management-new-laundry-for",
+                      },
+                      {
+                        id: "package-management-new-zamzam",
+                        label: "Zam Zam 5 litres",
+                        value: false,
+                        keyName: "packageManagementZamZam",
+                        htmlFor: "package-management-new-zamzam-for",
+                      },
+                    ]
+                  },      
                   {
                     id: "package-management-new-exclusion",
-                    keyName: "packageManagementNewExclusion",
-                    label: "",
-                    type: "textarea",
-                    description: "textarea without label text",
-                    value: "",
-                    htmlFor: "package-management-new-exclusion-for",
-                    placeholder: "Exclusion",
-                    class: [["mb-2"]]
+                    label: "Exclusion",
+                    type: "checkbox",
+                    name: "packageManagementNewExclusion",
+                    description: "checkbox with label text",
+                    class: [["mt-3", "mb-3", "col-12"]],
+                    fields: [
+                      {
+                        id: "package-management-new-excess-bagggage",
+                        label: "Excess Bagggage",
+                        value: false,
+                        keyName: "packageManagementExcessBagggage",
+                        htmlFor: "package-management-new-excess-bagggage-for",
+                      },
+                      {
+                        id: "package-management-new-tawaf-e-ziyarat",
+                        label: "Tawaf-e-Ziyarat",
+                        value: false,
+                        keyName: "packageManagementTawafeZiyarat",
+                        htmlFor: "package-management-new-tawaf-e-ziyarat-for",
+                      },
+                      {
+                        id: "package-management-new-room-services",
+                        label: "Room Services",
+                        value: false,
+                        keyName: "packageManagementRoomServices",
+                        htmlFor: "package-management-new-room-services-for",
+                      },
+                      {
+                        id: "package-management-new-porter-services",
+                        label: "Porter Services",
+                        value: false,
+                        keyName: "packageManagementPorterServices",
+                        htmlFor: "package-management-new-porter-services-for",
+                      },
+                      {
+                        id: "package-management-new-individual-transfer",
+                        label: "Individual Transfer",
+                        value: false,
+                        keyName: "packageManagementIndividualTransfer",
+                        htmlFor: "package-management-new-individual-transfer-for",
+                      },
+                      {
+                        id: "package-management-new-qurbani",
+                        label: "Qurbani",
+                        value: false,
+                        keyName: "packageManagementQurbani",
+                        htmlFor: "package-management-new-qurbani-for",
+                      },
+                      {
+                        id: "package-management-new-gst-tcs",
+                        label: "GST & TCS",
+                        value: false,
+                        keyName: "packageManagementGSTTCS",
+                        htmlFor: "package-management-new-gst-tcs-for",
+                      }
+                    ]
                   }
                 ]
               }
@@ -380,7 +513,7 @@ export const vData = [
       {
         id: "package-management-view-id",
         title: "Package Management View",
-        link: `/package-management-view`,
+        link: '/package-management-view',
         component: "PackageManagementView",
         hide: "hider",
         looper: (num, name, gender, mobile, email, yesFiles, noFiles) => {
@@ -880,7 +1013,7 @@ export const vData = [
       {
         id: "pilgrimage-booking-view-id",
         title: "Pilgrimage Booking View",
-        link: `/pilgrimage-booking-view`,
+        link: '/pilgrimage-booking-view',
         component: "PilgrimageBookingView",
         hide: "hider",
         looper: (num, name, gender, mobile, email, yesFiles, noFiles) => {
@@ -1025,6 +1158,35 @@ export const vData = [
           },
         ]
       },
+    ]
+  },
+  {
+    id: "hotels-id",
+    title: "Hotels",
+    link: "",
+    subMenu: [
+      {
+        id: "hotel-profile-management-list-id",
+        title: "Hotel Profile Management",
+        link: '/hotel-profile-management-list',
+        component: "HotelProfileManagementList",
+        hide: "",
+        content: [
+          {
+          class: ["mb-4"],
+          fields: [
+            {
+              id: "package-management-list-main-heading",
+              label: "Package Management",
+              type: "h2",
+              description: "h2 text",
+              htmlType: 1,
+              class: [["col-auto", "me-auto"], [""]]
+            }
+          ]
+          }
+        ]
+      }
     ]
   },
 ];

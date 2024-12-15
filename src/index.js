@@ -5,10 +5,9 @@ import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GOOGLE_CLIENT_ID } from './config';
 import './index.css';
-import App from './App';
 import store from './store';
 import reportWebVitals from './reportWebVitals';
-import Vendors from './Vendors';
+import App from './App';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,7 +17,7 @@ root.render(
   <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID || ''}>
     <Provider store={store}>
       <Router>
-        <Vendors />
+        <App/>
       </Router>
     </Provider>
   </GoogleOAuthProvider>,

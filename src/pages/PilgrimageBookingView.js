@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { toastOptions } from '../../toastify';
+import { toastOptions } from '../toastify';
 import {
   defaultPackages,
   formatDate
-} from '../../constant/func';
-import { handleAPIData } from '../../hooks/useCustomApi';
-import VendorForm from '../../components/vendors/VendorForm';
+} from '../constant/func';
+import { handleAPIData } from '../hooks/useCustomApi';
+import VendorForm from '../components/VendorForm';
 import {
   resetVendorsComponentFunc
-} from '../../reducers/vendorsSlice';
+} from '../reducers/vendorsSlice';
 
 const PilgrimageBookingView = ({ obj }) => {
   console.log('!!!!!!!@!@!@!@', obj);
@@ -47,7 +47,7 @@ const PilgrimageBookingView = ({ obj }) => {
   const caughtDataOnClick = async (catchData, id) => {
     console.log('@@#@#####!!!!!!!!!!!!!!!!', getId);
     if (catchData === 'pilgrimageBookingViewBackBtn') {      
-      history.push('/vendors/pilgrimage-booking-list');
+      history.push('/pilgrimage-booking-list');
     } else if (catchData === 'pilgrimageBookingViewCancelBookingBtn' && getId) {
       let response = await handleAPIData('POST', '/api/vendors', { type: 'PILGRIMAGE_BOOKING_DELETE', pilgrimageBookingId: getId });
       console.log('/api/vendors PILGRIMAGE_BOOKING_DELETE', response); 
@@ -55,7 +55,7 @@ const PilgrimageBookingView = ({ obj }) => {
         toast.success(response.data.message, toastOptions);
       } else if (response.status === 'success' && response.data.deleted) {
         toast.success(response.data.message, toastOptions);
-        history.push('/vendors/pilgrimage-booking-list');
+        history.push('/pilgrimage-booking-list');
       } else if (response.status === 'error' && response.message) {
         toast.error(response.message, toastOptions);
       } else {

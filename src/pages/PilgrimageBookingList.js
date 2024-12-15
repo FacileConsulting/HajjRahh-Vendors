@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { handleAPIData } from '../../hooks/useCustomApi';
-import VendorForm from '../../components/vendors/VendorForm';
+import { handleAPIData } from '../hooks/useCustomApi';
+import VendorForm from '../components/VendorForm';
 import { toast } from 'react-toastify';
-import { toastOptions } from '../../toastify';
+import { toastOptions } from '../toastify';
 import {
   defaultPackages,
   formatDate
-} from '../../constant/func';
+} from '../constant/func';
 import {
   resetVendorsComponentFunc
-} from '../../reducers/vendorsSlice';
-import { responseHandler } from '../../constant/func';
+} from '../reducers/vendorsSlice';
+import { responseHandler } from '../constant/func';
 
 const PilgrimageBookingList = ({ obj }) => {
   const history = useHistory();
@@ -60,7 +60,7 @@ const PilgrimageBookingList = ({ obj }) => {
         toast.success(response.data.message, toastOptions);
       } else if (response.status === 'success' && response.data.data) {
         history.push({
-          pathname: '/vendors/pilgrimage-booking-new',
+          pathname: '/pilgrimage-booking-new',
           state: { from: 'Edit Icon Package Click', data: response.data.data }
         });
       } else if (response.status === 'error' && response.message) {
@@ -69,9 +69,9 @@ const PilgrimageBookingList = ({ obj }) => {
         toast.error('Something went wrong. Please try again.', toastOptions);
       }
     } else if (catchData === 'pilgrimageBookingListNewBookingBtn') {
-      // history.push('/vendors/pilgrimage-booking-new');
+      // history.push('/pilgrimage-booking-new');
       history.push({
-        pathname: '/vendors/pilgrimage-booking-new',
+        pathname: '/pilgrimage-booking-new',
         state: 'createNewPilgrimageBooking' 
       });
     } else if (catchData === 'pilgrimageBookingListDeleteBtn' && id) {
@@ -96,7 +96,7 @@ const PilgrimageBookingList = ({ obj }) => {
         toast.success(response.data.message, toastOptions);
       } else if (response.status === 'success' && response.data.data) {
         history.push({
-          pathname: '/vendors/pilgrimage-booking-view',
+          pathname: '/pilgrimage-booking-view',
           state: { from: 'dsafffffff View Details click', data: response.data.data }
         });
       } else if (response.status === 'error' && response.message) {

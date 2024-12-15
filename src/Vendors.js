@@ -1,51 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import Navigation from './components/vendors/Navigation';
-import PageRenderer from './components/vendors/PageRenderer';
+import { Link, Route, Redirect, Switch, useHistory, useLocation } from 'react-router-dom';
+import PageRenderer from './components/PageRenderer';
 import { vData } from './constant/vendor';
 import {
   resetVendorsComponentFunc, resetVendorsFunc, updateVendorsFunc
 } from './reducers/vendorsSlice';
 
-import 'react-toastify/dist/ReactToastify.css';
+
 import './Vendors.css';
+import Login from './pages/Login';
 
-const renderRoutes = (routes) => {
-  return routes.map((item) => (
-    <React.Fragment key={item.link}>
-      {/* Main Route */}
-      <Route
-        path={`/vendors${item.link}`}
-        exact={item.exact}
-        render={() =>
-          item.component ? (
-            <PageRenderer componentName={item.component} data={item} />
-          ) : null
-        }
-      />
-      
-      {/* Render Sub-routes if any */}
-      {item.subMenu && renderRoutes(item.subMenu)}
-    </React.Fragment>
-  ));
-};
 
-const Vendors = ({ message }) => {
+const Vendors = ({ onLogOutSuccess }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
+  const { Login } = useSelector(state => state.vendors);
+  const [openMenu, setOpenMenu] = useState(null);
 
-  useEffect(() => {
-    dispatch(resetVendorsFunc());
-  }, []);
-  // localStorage.setItem('current_route', '/vendors');
+  const handleToggle = (index) => {
+    setOpenMenu(openMenu === index ? null : index); // Open the clicked menu, close if already open
+  };
+
+  const handleLogoClick = () => {
+    history.push('/dashboard');
+  };
+
+  const handleLogOutClick = () => {
+    onLogOutSuccess();
+  };
 
   return (
-    <>
+    <React.Fragment>
       <div className="vendor-main header">
         <div className="header-left">
-          <a href="#!" className="logo">
-            <img src="./assets/images/applogo.png" alt="logo" />
+          <a className="logo">
+            <img src="./assets/images/applogo.png" alt="logo" onClick={handleLogoClick} />
           </a>
           <div className="input-group header-search">
             <span className="input-group-text" id="basic-addon1"><i className="bi bi-search"></i></span>
@@ -53,16 +43,43 @@ const Vendors = ({ message }) => {
           </div>
         </div>
         <ul className="header-right list-unstyled">
-          <li className="logout"><a href="#!"><i className="bi bi-box-arrow-right"></i></a></li>
+          <span className="mt-1 p-1">User : {Login.loggedMobile}</span>
+          <li className="logout" onClick={handleLogOutClick}><a href="#!"><i className="bi bi-box-arrow-right"></i></a></li>
         </ul>
       </div>
-      <Navigation />
-      <Switch>
-        {renderRoutes(vData)}
-      </Switch>
-      <ToastContainer />
-    </>
-
+      <nav>
+        <ul className="navigation list-unstyled">
+          {vData.map((menuItem, index) => (
+            <React.Fragment key={menuItem.id}>
+              {menuItem.subMenu.length > 0 ? (
+                <li>
+                  <a
+                    className={`main-menu ${openMenu === index ? "active" : ""}`}
+                    onClick={() => handleToggle(index)}
+                  >
+                    {menuItem.title} <i className={`bi bi-chevron-right arrow-toggle ${openMenu === index ? "rotated" : ""}`}></i>
+                  </a>
+                  <ul
+                    className="sub-menu list-unstyled"
+                    style={{ display: openMenu === index ? "block" : "none" }}
+                  >
+                    {menuItem.subMenu.map((subMenuItem) => (
+                      <li key={subMenuItem.title} className={subMenuItem.hide} >
+                        <Link to={subMenuItem.link}>{subMenuItem.title}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li>
+                  <Link to={menuItem.link}>{menuItem.title}</Link>
+                </li>
+              )}
+            </React.Fragment>
+          ))}
+        </ul>
+      </nav>
+    </React.Fragment>
   )
 };
 

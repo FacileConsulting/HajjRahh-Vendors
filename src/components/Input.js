@@ -1,14 +1,22 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import { changeInputFunc, resetInputFunc } from '../reducers/myAccountSlice';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { 
+  updateVendorsFunc, 
+  resetVendorsComponentFunc,
+  resetVendorsFunc 
+} from '../reducers/vendorsSlice';
 
 const Input = forwardRef((props, ref) => {
-  let { id, keyName, placeholder, disabled, type } = props;
+  let { id, componentName, keyName, placeholder, disabled, type } = props;
   const dispatch = useDispatch();
-  const [value, setValue] = useState('');  
+  const [value, setValue] = useState('');
 
-  const resetRefCalled = (index) => {
-    dispatch(resetInputFunc(keyName));
+  const resetRefCalled = (componentName, keyName) => {
+    if (keyName) {
+      dispatch(updateVendorsFunc({ componentName, keyName, value: '' }));
+    } else {
+      dispatch(resetVendorsComponentFunc({componentName}));
+    }    
     setValue('');
   };
 
@@ -19,12 +27,12 @@ const Input = forwardRef((props, ref) => {
 
   const handleChange = (event) => {
     console.log(id, keyName, placeholder);
-    dispatch(changeInputFunc({ keyName, value: event.target.value }));
+    dispatch(updateVendorsFunc({ componentName, keyName, value: event.target.value }));
     setValue(event.target.value);
   };
 
   return (
-    <input type={type ? type : "text"} className="form-control" disabled={disabled} id={id} placeholder={placeholder} onChange={handleChange} value={value} />
+    <input type={type ? type : "text"} className="form-control" disabled={disabled} id={id} placeholder={placeholder || ''} onChange={handleChange} value={value} />
   )
 });
 

@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { toastOptions } from '../../toastify';
-import VendorForm from '../../components/vendors/VendorForm';
-import { handleAPIData } from '../../hooks/useCustomApi';
+import { toastOptions } from '../toastify';
+import VendorForm from '../components/VendorForm';
+import { handleAPIData } from '../hooks/useCustomApi';
 import {
   resetVendorsComponentFunc,
   resetVendorsFunc,
   updateVendorsFunc
-} from '../../reducers/vendorsSlice';
-import { vData } from '../../constant/vendor';
+} from '../reducers/vendorsSlice';
+import { vData } from '../constant/vendor';
 
 
 const PackageManagementNew = ({ obj }) => {
@@ -135,17 +135,110 @@ const PackageManagementNew = ({ obj }) => {
       dispatched(getContent[1].fields[7].keyName, packMangHajjDates);
       // dispatch(updateVendorsFunc({ componentName: 'PackageManagementNew', keyName: getContent[1].fields[7].keyName, value: packMangUmrahDates || '' }));
     }
+    
     if (packMangInclusion) {
-      getContent[2].fields[1].fields[0].value = packMangInclusion || '';
-      dispatched(getContent[2].fields[1].fields[0].keyName, packMangInclusion);
-      // dispatch(updateVendorsFunc({ componentName: 'PackageManagementNew', keyName: getContent[2].fields[1].fields[0].keyName, value: packMangInclusion || '' }));
+      const arr = packMangInclusion.split(',');
+      if (arr.length && arr.includes('Hajj Visa')) {
+        getContent[2].fields[1].fields[1].fields[0].value = true;       
+        dispatched(getContent[2].fields[1].fields[1].fields[0].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[0].value = false;
+      }
+      if (arr.length && arr.includes('Ticket')) {
+        getContent[2].fields[1].fields[1].fields[1].value = true;     
+        dispatched(getContent[2].fields[1].fields[1].fields[1].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[1].value = false;
+      }
+      if (arr.length && arr.includes('Hajj Kit')) {
+        getContent[2].fields[1].fields[1].fields[2].value = true;     
+        dispatched(getContent[2].fields[1].fields[1].fields[2].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[2].value = false;
+      }
+      if (arr.length && arr.includes('Stay')) {
+        getContent[2].fields[1].fields[1].fields[3].value = true;     
+        dispatched(getContent[2].fields[1].fields[1].fields[3].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[3].value = false;
+      }
+      if (arr.length && arr.includes('Transportation')) {
+        getContent[2].fields[1].fields[1].fields[4].value = true;     
+        dispatched(getContent[2].fields[1].fields[1].fields[4].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[4].value = false;
+      }
+      if (arr.length && arr.includes('3 Times Buffet Indian Food')) {
+        getContent[2].fields[1].fields[1].fields[5].value = true;     
+        dispatched(getContent[2].fields[1].fields[1].fields[5].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[5].value = false;
+      }
+      if (arr.length && arr.includes('Ziyarat of Makkahh and Madina')) {
+        getContent[2].fields[1].fields[1].fields[6].value = true;     
+        dispatched(getContent[2].fields[1].fields[1].fields[6].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[6].value = false;
+      }
+      if (arr.length && arr.includes('Laundry')) {
+        getContent[2].fields[1].fields[1].fields[7].value = true;     
+        dispatched(getContent[2].fields[1].fields[1].fields[7].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[7].value = false;
+      }
+      if (arr.length && arr.includes('Zam Zam 5 litres')) {
+        getContent[2].fields[1].fields[1].fields[8].value = true;     
+        dispatched(getContent[2].fields[1].fields[1].fields[8].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[1].fields[8].value = false;
+      }
+
     }
     if (packMangExclusion) {
-      getContent[2].fields[1].fields[1].value = packMangExclusion || '';
-      dispatched(getContent[2].fields[1].fields[1].keyName, packMangExclusion);
-      // dispatch(updateVendorsFunc({ componentName: 'PackageManagementNew', keyName: getContent[2].fields[1].fields[1].keyName, value: packMangExclusion || '' }));
+      const arr = packMangExclusion.split(',');
+      if (arr.length && arr.includes('Excess Bagggage')) {
+        getContent[2].fields[1].fields[2].fields[0].value = true;       
+        dispatched(getContent[2].fields[1].fields[2].fields[0].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[2].fields[0].value = false;
+      }
+      if (arr.length && arr.includes('Tawaf-e-Ziyarat')) {
+        getContent[2].fields[1].fields[2].fields[1].value = true;     
+        dispatched(getContent[2].fields[1].fields[2].fields[1].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[2].fields[1].value = false;
+      }
+      if (arr.length && arr.includes('Room Services')) {
+        getContent[2].fields[1].fields[2].fields[2].value = true;     
+        dispatched(getContent[2].fields[1].fields[2].fields[2].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[2].fields[2].value = false;
+      }
+      if (arr.length && arr.includes('Porter Services')) {
+        getContent[2].fields[1].fields[2].fields[3].value = true;     
+        dispatched(getContent[2].fields[1].fields[2].fields[3].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[2].fields[3].value = false;
+      }
+      if (arr.length && arr.includes('Individual Transfer')) {
+        getContent[2].fields[1].fields[2].fields[4].value = true;     
+        dispatched(getContent[2].fields[1].fields[2].fields[4].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[2].fields[4].value = false;
+      }
+      if (arr.length && arr.includes('Qurbani')) {
+        getContent[2].fields[1].fields[2].fields[5].value = true;     
+        dispatched(getContent[2].fields[1].fields[2].fields[5].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[2].fields[5].value = false;
+      }
+      if (arr.length && arr.includes('GST & TCS')) {
+        getContent[2].fields[1].fields[2].fields[6].value = true;     
+        dispatched(getContent[2].fields[1].fields[2].fields[6].keyName, true);
+      } else {
+        getContent[2].fields[1].fields[2].fields[6].value = false;
+      }
     }
-
     getContent[2].fields[0].fields = [];
     for (let i = 0; i < packMangItineraryList.length; i++) {
       let mainObj = rawItinerary(i + 1, packMangItineraryList[i]);  
@@ -161,17 +254,32 @@ const PackageManagementNew = ({ obj }) => {
     getContent[0].fields[0].label = 'Add Package Management';
     getContent[0].fields[1].entity[1].label = 'Create';
     getContent[1].fields[0].value = '';
-    getContent[1].fields[1].value = '';
+    getContent[1].fields[1].value = [];
     getContent[1].fields[2].value = '';
-    getContent[1].fields[3].value = '';
+    getContent[1].fields[3].value = [];
     getContent[1].fields[4].fields[0].value = false;
     getContent[1].fields[4].fields[1].value = false;
     getContent[1].fields[4].fields[2].value = false;
     getContent[1].fields[5].value = '';
     getContent[1].fields[6].value = '';
-    getContent[1].fields[7].value = '';
-    getContent[2].fields[1].fields[0].value = '';
-    getContent[2].fields[1].fields[1].value = '';
+    getContent[1].fields[7].value = '';    
+    getContent[2].fields[1].fields[1].fields[0].value = false;
+    getContent[2].fields[1].fields[1].fields[1].value = false;
+    getContent[2].fields[1].fields[1].fields[2].value = false;
+    getContent[2].fields[1].fields[1].fields[3].value = false;
+    getContent[2].fields[1].fields[1].fields[4].value = false;
+    getContent[2].fields[1].fields[1].fields[5].value = false;
+    getContent[2].fields[1].fields[1].fields[6].value = false;
+    getContent[2].fields[1].fields[1].fields[7].value = false;
+    getContent[2].fields[1].fields[1].fields[8].value = false;
+    getContent[2].fields[1].fields[2].fields[0].value = false;
+    getContent[2].fields[1].fields[2].fields[1].value = false;
+    getContent[2].fields[1].fields[2].fields[2].value = false;
+    getContent[2].fields[1].fields[2].fields[3].value = false;
+    getContent[2].fields[1].fields[2].fields[4].value = false;
+    getContent[2].fields[1].fields[2].fields[5].value = false;
+    getContent[2].fields[1].fields[2].fields[6].value = false;
+
     let lastButtons = getContent[2].fields[0].fields.pop();
     let fisrtTitle = getContent[2].fields[0].fields[0];
     fisrtTitle.value = '';
@@ -205,8 +313,7 @@ const PackageManagementNew = ({ obj }) => {
     let response = await handleAPIData('POST', '/api/vendors', payload);
     if (response.status === 'success' && (response.data.created || response.data.updated)) {
       toast.success(response.data.message, toastOptions);
-      dispatch(resetVendorsComponentFunc({ componentName: 'PackageManagementNew' }));
-      history.push('/vendors/package-management-list');
+      history.push('/package-management-list');
     } else if (response.status === 'success' && response.data.notUpdated) {
       toast.info(response.data.message, toastOptions);
     } else if (response.status === 'error' && response.message) {
@@ -214,6 +321,7 @@ const PackageManagementNew = ({ obj }) => {
     } else {
       toast.error('Something went wrong. Please try again.', toastOptions);
     }
+    dispatch(resetVendorsComponentFunc({ componentName: 'PackageManagementNew' }));
     setLoading(false);
     setItineraryNumber(num);
   }
@@ -256,8 +364,22 @@ const PackageManagementNew = ({ obj }) => {
           packageManagementTransportationRequired,
           packageManagementNewHajjDates,
           packageManagementNewUmrahDates,
-          packageManagementNewInclusion,
-          packageManagementNewExclusion,
+          packageManagementHajjVisa,
+          packageManagementTicket,
+          packageManagementHajjKit,
+          packageManagementStay,
+          packageManagementTransportation,
+          packageManagementBuffet,
+          packageManagementZiyarat,
+          packageManagementLaundry,
+          packageManagementZamZam,
+          packageManagementExcessBagggage,
+          packageManagementTawafeZiyarat,
+          packageManagementRoomServices,
+          packageManagementPorterServices,
+          packageManagementIndividualTransfer,
+          packageManagementQurbani,
+          packageManagementGSTTCS
         } = PackageManagementNew;
 
         const array = Array.from({ length: iterNumber }, (_, i) => i + 1);
@@ -291,28 +413,85 @@ const PackageManagementNew = ({ obj }) => {
           }
           return docs.length ? docs.join(',') : '';
         } 
-        
+
+        const getInclusion = () => {
+          let inclusion = [];
+          if (packageManagementHajjVisa) {
+            inclusion.push('Hajj Visa');
+          }
+          if (packageManagementTicket) {
+            inclusion.push('Ticket');
+          }
+          if (packageManagementHajjKit) {
+            inclusion.push('Hajj Kit');
+          }
+          if (packageManagementStay) {
+            inclusion.push('Stay');
+          }
+          if (packageManagementTransportation) {
+            inclusion.push('Transportation');
+          }
+          if (packageManagementBuffet) {
+            inclusion.push('3 Times Buffet Indian Food');
+          }
+          if (packageManagementZiyarat) {
+            inclusion.push('Ziyarat of Makkahh and Madina');
+          }
+          if (packageManagementLaundry) {
+            inclusion.push('Laundry');
+          }
+          if (packageManagementZamZam) {
+            inclusion.push('Zam Zam 5 litres');
+          }
+          return inclusion.length ? inclusion.join(',') : '';
+        } 
+
+        const getExclusion = () => {
+          let exclusion = [];
+          if (packageManagementExcessBagggage) {
+            exclusion.push('Excess Bagggage');
+          }
+          if (packageManagementTawafeZiyarat) {
+            exclusion.push('Tawaf-e-Ziyarat');
+          }
+          if (packageManagementRoomServices) {
+            exclusion.push('Room Services');
+          }
+          if (packageManagementPorterServices) {
+            exclusion.push('Porter Services');
+          }
+          if (packageManagementIndividualTransfer) {
+            exclusion.push('Individual Transfer');
+          }
+          if (packageManagementQurbani) {
+            exclusion.push('Qurbani');
+          }
+          if (packageManagementGSTTCS) {
+            exclusion.push('GST & TCS');
+          }
+          return exclusion.length ? exclusion.join(',') : '';
+        }
+
+        const inex = {
+          dc: getDocs(),
+          in: getInclusion(),
+          ex: getExclusion()
+        };
         if (!packageManagementNewPackageName) {
           toast.info('Please fill Package Name', toastOptions);
           return;
         } else if (!packageManagementNewGroupSize) {
           toast.info('Please fill Group Size', toastOptions);
           return;
-        } else if (!packageManagementNewAccomodation) {
-          toast.info('Please fill Accomodation', toastOptions);
+        } else if (!packageManagementNewAccomodation  || packageManagementNewAccomodation.length === 0) {
+          toast.info('Please select Accomodation', toastOptions);
           return;
-        } else if (getDocs() === '') {
+        } else if (inex.dc == '') {
           toast.info('Please select the documents required', toastOptions);
           return;
-        } else if (!packageManagementNewPrice) {
-          toast.info('Please fill Price', toastOptions);
+        } else if (!packageManagementNewPrice || packageManagementNewPrice.length === 0) {
+          toast.info('Please select Price', toastOptions);
           return;
-        } else if (packageManagementNewPrice) {
-          const patterh = /^-?\d+(\.\d+)?$/;
-          if (!patterh.test(packageManagementNewPrice)) {
-            toast.info('Please fill valid Price', toastOptions);
-            return;
-          }
         } else if (!packageManagementTransportationRequired) {
           toast.info('Please select Transportation Required', toastOptions);
           return;
@@ -336,16 +515,18 @@ const PackageManagementNew = ({ obj }) => {
               return;
             }
           }
-        } else if (!packageManagementNewInclusion) {
-          toast.info('Please fill Inclusion', toastOptions);
+        } 
+        if (inex.in == '') {
+          toast.info('Please select the inclusion', toastOptions);
           return;
-        }  else if (!packageManagementNewExclusion) {
-          toast.info('Please fill Exclusion', toastOptions);
+        } else if (inex.ex == '') {
+          toast.info('Please select the exclusion', toastOptions);
           return;
-        }
+        } 
 
         const payload = {
           type: 'PACKAGE_MANAGEMENT_CREATE',
+          userMobile: localStorage.getItem('loggedMobile'),
           packMangPackageName: packageManagementNewPackageName,
           packMangPrice: packageManagementNewPrice,
           packMangGroupSize: packageManagementNewGroupSize,
@@ -354,23 +535,29 @@ const PackageManagementNew = ({ obj }) => {
           packMangTransportation: packageManagementTransportationRequired === 'packageManagementYes' ? 'Yes' : 'No',
           packMangHajjDates: packageManagementNewHajjDates,
           packMangUmrahDates: packageManagementNewUmrahDates,
-          packMangInclusion: packageManagementNewInclusion,
-          packMangExclusion: packageManagementNewExclusion,  
+          packMangInclusion: inex.in,
+          packMangExclusion: inex.ex,
           packMangItineraryList: packageManagementItineraryList
         }
 
         if (packageManagementId) {
           payload.packageManagementId = packageManagementId;
           payload.type = 'PACKAGE_MANAGEMENT_UPDATE';
-
         }
-        createPackagesAPICall(payload, iterNumber);
+
+        if (payload.userMobile) {
+          createPackagesAPICall(payload, iterNumber);
+        } else {
+          toast.info('Please Log In', toastOptions);
+          dispatch(resetVendorsFunc());
+          history.push('/');
+        }
       } else {
         toast.info('Please fill the fields.', toastOptions);
       }
     } else if (catchData === 'packageManagementNewBackBtn') {
       dispatch(resetVendorsComponentFunc({ componentName: 'PackageManagementNew' }));
-      history.push('/vendors/package-management-list');
+      history.push('/package-management-list');
     }
   }
 

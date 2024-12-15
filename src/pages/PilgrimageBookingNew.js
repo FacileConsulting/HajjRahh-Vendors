@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { toastOptions } from '../../toastify';
-import VendorForm from '../../components/vendors/VendorForm';
-import { handleAPIData } from '../../hooks/useCustomApi';
+import { toastOptions } from '../toastify';
+import VendorForm from '../components/VendorForm';
+import { handleAPIData } from '../hooks/useCustomApi';
 import {
   resetVendorsComponentFunc,
   resetVendorsFunc,
   updateVendorsFunc
-} from '../../reducers/vendorsSlice';
+} from '../reducers/vendorsSlice';
 
 
 const PilgrimageBookingNew = ({ obj }) => {
@@ -235,7 +235,7 @@ const PilgrimageBookingNew = ({ obj }) => {
     let response = await handleAPIData('POST', '/api/vendors', payload);
     if (response.status === 'success' && (response.data.created || response.data.updated)) {
       toast.success(response.data.message, toastOptions);
-      history.push('/vendors/pilgrimage-booking-list');
+      history.push('/pilgrimage-booking-list');
     } else if (response.status === 'success' && response.data.notUpdated) {
       toast.info(response.data.message, toastOptions);
     } else if (response.status === 'error' && response.message) {
@@ -367,12 +367,13 @@ const PilgrimageBookingNew = ({ obj }) => {
               toast.info('Please fill Mobile Number', toastOptions);
               return;
             } else if (pilBookTravelersList[k].mobile) {
-              const intlMobilePattern = /^\+?[1-9]\d{1,14}$/; 
+              const intlMobilePattern = /^[6-9]\d{9}$/;
               if (!intlMobilePattern.test(pilBookTravelersList[k].mobile)) {
                 toast.info('Please fill valid Mobile Number', toastOptions);
                 return;
               }
-            } else if (!pilBookTravelersList[k].email) {
+            } 
+            if (!pilBookTravelersList[k].email) {
               toast.info('Please fill Email', toastOptions);
               return;
             } else if (pilBookTravelersList[k].email) {
@@ -387,6 +388,7 @@ const PilgrimageBookingNew = ({ obj }) => {
 
         const payload = {
           type: 'PILGRIMAGE_BOOKING_CREATE',
+          userMobile: localStorage.getItem('loggedMobile'),
           pilBookVendorName: pilBookTravelersList[0].name,
           pilBookMobile: pilBookTravelersList[0].mobile,
           pilBookEmail: pilBookTravelersList[0].email,
@@ -404,13 +406,19 @@ const PilgrimageBookingNew = ({ obj }) => {
           payload.type = 'PILGRIMAGE_BOOKING_UPDATE';
 
         }
-        bookPackagesAPICall(payload, travelNumber);
+        if (payload.userMobile) {
+          bookPackagesAPICall(payload, travelNumber);
+        } else {
+          toast.info('Please Log In', toastOptions);
+          dispatch(resetVendorsFunc());
+          history.push('/');
+        }
       } else {
         toast.info('Please fill the fields.', toastOptions);
       }
     } else if (catchData === 'pilgrimageBookingNewBackBtn') {
       dispatch(resetVendorsComponentFunc({ componentName: 'PilgrimageBookingNew' }));
-      history.push('/vendors/pilgrimage-booking-list');
+      history.push('/pilgrimage-booking-list');
     }
   }
 

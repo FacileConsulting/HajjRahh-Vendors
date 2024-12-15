@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { handleAPIData } from '../../hooks/useCustomApi';
-import VendorForm from '../../components/vendors/VendorForm';
+import { handleAPIData } from '../hooks/useCustomApi';
+import VendorForm from '../components/VendorForm';
 import { toast } from 'react-toastify';
-import { toastOptions } from '../../toastify';
+import { toastOptions } from '../toastify';
 import {
   defaultPackages
-} from '../../constant/func';
+} from '../constant/func';
 import {
   resetVendorsComponentFunc
-} from '../../reducers/vendorsSlice';
-import { responseHandler } from '../../constant/func';
+} from '../reducers/vendorsSlice';
+import { responseHandler } from '../constant/func';
 
 const PackageManagementList = ({ obj }) => {
   const history = useHistory();
@@ -41,7 +41,7 @@ const PackageManagementList = ({ obj }) => {
         toast.success(response.data.message, toastOptions);
       } else if (response.status === 'success' && response.data.data) {
         history.push({
-          pathname: '/vendors/package-management-new',
+          pathname: '/package-management-new',
           state: { from: 'Edit Icon Package Click', data: response.data.data }
         });
       } else if (response.status === 'error' && response.message) {
@@ -50,9 +50,9 @@ const PackageManagementList = ({ obj }) => {
         toast.error('Something went wrong. Please try again.', toastOptions);
       }
     } else if (catchData === 'packageManagementListNewPackageBtn') {      
-      // history.push('/vendors/package-management-new');      
+      // history.push('/package-management-new');      
       history.push({
-        pathname: '/vendors/package-management-new',
+        pathname: '/package-management-new',
         state: 'createNewPackage'
       });
     } else if (catchData === 'packageManagementListDeleteBtn' && id) {
@@ -77,7 +77,7 @@ const PackageManagementList = ({ obj }) => {
         toast.success(response.data.message, toastOptions);
       } else if (response.status === 'success' && response.data.data) {
         history.push({
-          pathname: '/vendors/package-management-view',
+          pathname: '/package-management-view',
           state: { from: 'View Details click', data: response.data.data }
         });
       } else if (response.status === 'error' && response.message) {
@@ -95,10 +95,10 @@ const PackageManagementList = ({ obj }) => {
       tbody.push([
         `${data[i].packMangPackageName}^${data[i]._id}` || '',
         data[i].packMangItineraryList && data[i].packMangItineraryList.length ? 'Itinerary Details' : 'No Itinerary',
-        data[i].packMangPrice || '',
+        data[i].packMangPrice.join(', ') || '',
         data[i].packMangGroupSize || '',
         data[i].packMangDocumentsRequired || '',
-        data[i].packMangAccomodation || '',
+        data[i].packMangAccomodation.join(', ') || '',
         data[i].packMangTransportation || '',
         `Actions^${data[i]._id}`
       ]);

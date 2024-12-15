@@ -1,23 +1,40 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DatePicker } from 'rsuite';
+import { DatePicker, TagPicker } from 'rsuite';
 import {
   resetVendorsComponentFunc, resetVendorsFunc, updateVendorsFunc
-} from '../../reducers/vendorsSlice';
+} from '../reducers/vendorsSlice';
+import 'rsuite/TagPicker/styles/index.css';
 
-// import 'rsuite/DateRangePicker/styles/index.css';
+import 'rsuite/DatePicker/styles/index.css';
+
+// const priceSelectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+//   item => ({ label: item, value: item })
+// );
 
 const VendorForm = ({ component, item, caughtDataOnClick }) => {
-  // console.log('key, itemkiran', item, item.type);
+  // console.log('key, itemkiran', item, item.type, item.keyName);
   const dispatch = useDispatch();
   let setter = {};
   if (item.keyName) {
     setter = { [item.keyName]: item.value };
   } else if (item.fields && item.fields.length > 0) {
     for (let i = 0; i < item.fields.length; i++) {
-      setter = { ...setter, [item.fields[i].keyName]: item.fields[i].value };
+      if (item.fields[i].keyName) {
+        setter = { ...setter, [item.fields[i].keyName]: item.fields[i].value };
+      } else { 
+        if (item.fields[i].type === 'checkbox') { 
+          for (let j = 0; j < item.fields[i].fields.length; j++) {           
+            // console.log('key, itemkiran', setter, item.fields[i].fields[j].keyName);
+            if (item.fields[i].fields[j].keyName) { 
+              setter = { ...setter, [item.fields[i].fields[j].keyName]: item.fields[i].fields[j].value };
+            }
+          }
+        } 
+      }
     }
   }
+  console.log('@@@@@@@@@@@@@@@', setter);
   const [value, setValue] = useState({ ...setter });
   // const [textAreaValue, setTextAreaValue] = useState({});
 
@@ -30,6 +47,10 @@ const VendorForm = ({ component, item, caughtDataOnClick }) => {
       const date = `${gD}-${gM}-${value.getFullYear()}`;
       dispatch(updateVendorsFunc({ componentName: component, keyName, value: date }));
     }
+  }
+
+  const handleTagPickerChange = (value, keyName) => {
+    dispatch(updateVendorsFunc({ componentName: component, keyName, value: value }));
   }
 
   const handleButtonClick = (event, keyName, id) => {
@@ -71,9 +92,9 @@ const VendorForm = ({ component, item, caughtDataOnClick }) => {
     }
   };
 
-  const RenderLabel = ({ htmlFor, label }) => {
+  const RenderLabel = ({ htmlFor, label, classs }) => {
     return (
-      <label htmlFor={htmlFor} className="form-label">{label}</label>
+      <label htmlFor={htmlFor} className={classs && classs.length > 0 ? `form-label ${classs[0].join(' ')}` : 'form-label'}>{label}</label>
     );
   }
 
@@ -126,6 +147,11 @@ const VendorForm = ({ component, item, caughtDataOnClick }) => {
               {
                 item.label &&
                 <RenderLabel htmlFor={item.htmlFor} label={item.label} />
+              }
+              {
+                item.type === 'multiSelect' &&
+                <TagPicker data={item.data} style={{ width: 300 }} onChange={(e) => handleTagPickerChange(e, item.keyName)} defaultValue={value[item.keyName] || []} />
+                
               }
               {
                 item.type === 'datepicker' &&
@@ -353,13 +379,32 @@ const VendorForm = ({ component, item, caughtDataOnClick }) => {
           <div className={item.class[0].join(' ')}>
             <div className="mb-3">
               {
-                Array.isArray(item.fields) && item.fields.length > 0 && item.fields.map((field, index) => {
-                  
+                Array.isArray(item.fields) && item.fields.length > 0 && item.fields.map((field, index) => {                  
                   return (
                     <>
                       {
                         field.label &&
-                        <RenderLabel htmlFor={field.htmlFor} label={field.label} />
+                        <RenderLabel htmlFor={field.htmlFor} label={field.label} classs={field.class} />
+                      }
+                      {
+                        field.type === 'checkbox' &&
+                        <>
+                          {
+                            Array.isArray(field.fields) && field.fields.length > 0 && field.fields.map((ent, ind) => {
+                              return (
+                                <div key={`${ind}-${ent.id}`} className="form-check form-check-inline">
+                                  {
+                                    <input type={field.type} name={field.name} className="form-check-input" id={ent.id} onChange={(e) => handleInputChange(e, ent.keyName, field.type)} defaultChecked={value[ent.keyName] || false} />
+                                  }
+                                  {
+                                    ent.label &&
+                                    <RenderLabel htmlFor={ent.htmlFor} label={ent.label} classs={ent.class} />
+                                  }
+                                </div>
+                              )
+                            })
+                          }
+                        </>
                       }
                       {
                         field.type === 'text' &&

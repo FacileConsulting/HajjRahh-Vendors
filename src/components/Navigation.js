@@ -20,7 +20,7 @@ const Navigation = () => {
     return items.map((item, index) => (
       <li key={index} className={item.hide}>
         <Link
-          to={`/vendors${item.link}`}
+          to={`${item.link}`}
           className={!item.subMenu && `${componentActive === item.component ? 'active main-menu' : 'main-menu'}`}
           onClick={() => handleMenuClick(item, index)}
         >
